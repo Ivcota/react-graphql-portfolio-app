@@ -17,7 +17,7 @@ type CreateUserResponse {
 }
 
 type Mutation {
-  CreateProject(desc: String!, githubURL: String!, imageURL: String!, title: String!, websiteURL: String): CreateProjectResponse
+  CreateProject(desc: String!, githubURL: String!, imageUrl: String!, title: String!, userId: Int, websiteURL: String): CreateProjectResponse
 
   """Create a single new user"""
   CreateUser(email: String!, firstName: String!, password: String!): CreateUserResponse

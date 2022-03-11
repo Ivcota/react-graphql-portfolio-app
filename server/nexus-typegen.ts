@@ -164,8 +164,9 @@ export interface NexusGenArgTypes {
     CreateProject: { // args
       desc: string; // String!
       githubURL: string; // String!
-      imageURL: string; // String!
+      imageUrl: string; // String!
       title: string; // String!
+      userId?: number | null; // Int
       websiteURL?: string | null; // String
     }
     CreateUser: { // args

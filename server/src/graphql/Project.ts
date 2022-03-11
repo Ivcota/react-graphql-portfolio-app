@@ -36,10 +36,35 @@ export const createProject = extendType({
       type: "CreateProjectResponse",
       args: {
         title: nonNull("String"),
-        imageURL: nonNull("String"),
+        imageUrl: nonNull("String"),
         desc: nonNull("String"),
         githubURL: nonNull("String"),
         websiteURL: "String",
+        userId: "Int",
+      },
+      // @ts-expect-error
+      async resolve(
+        _,
+        { title, desc, githubURL, imageUrl, websiteURL, userId },
+        { db }
+      ) {
+        const project = await db.project.create({
+          data: {
+            title,
+            desc,
+            githubURL,
+            imageUrl,
+            websiteURL,
+            userId,
+          },
+        });
+
+        return {
+          code: 201,
+          success: true,
+          message: "Project has been created",
+          project,
+        };
       },
     });
   },
