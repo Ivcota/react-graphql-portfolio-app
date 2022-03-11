@@ -7,6 +7,7 @@ const app = express();
 
 const startServer = async () => {
   const server = new ApolloServer({ schema, context });
+
   await server.start();
   server.applyMiddleware({ app });
 

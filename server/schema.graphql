@@ -14,8 +14,30 @@ type Mutation {
   CreateUser(email: String!, firstName: String!, password: String!): CreateUserResponse
 }
 
+type Project {
+  desc: String!
+  githubURL: String!
+  id: ID!
+  imageUrl: String!
+  title: String!
+  websiteURL: String
+}
+
 type Query {
-  GetManyUsers(skip: Int! = 0, take: Int! = 100): [User]!
+  """Get a list of users."""
+  GetManyUsers(
+    """The amount of entries to skip."""
+    skip: Int! = 0
+
+    """The amount of entries to take."""
+    take: Int! = 100
+  ): [User]!
+
+  """Get single user"""
+  GetSingleUser(
+    """user id"""
+    id: Int!
+  ): User
 }
 
 type User {
@@ -26,6 +48,7 @@ type User {
   isAdmin: Boolean!
   lastName: String
   profilePictureURL: String
+  projects: [Project]!
   socialMediaURL: String
   websiteURL: String
 }

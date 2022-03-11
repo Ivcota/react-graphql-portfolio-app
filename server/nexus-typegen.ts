@@ -35,6 +35,14 @@ export interface NexusGenObjects {
     success: boolean; // Boolean!
   }
   Mutation: {};
+  Project: { // root type
+    desc: string; // String!
+    githubURL: string; // String!
+    id: string; // ID!
+    imageUrl: string; // String!
+    title: string; // String!
+    websiteURL?: string | null; // String
+  }
   Query: {};
   User: { // root type
     email: string; // String!
@@ -69,8 +77,17 @@ export interface NexusGenFieldTypes {
   Mutation: { // field return type
     CreateUser: NexusGenRootTypes['CreateUserResponse'] | null; // CreateUserResponse
   }
+  Project: { // field return type
+    desc: string; // String!
+    githubURL: string; // String!
+    id: string; // ID!
+    imageUrl: string; // String!
+    title: string; // String!
+    websiteURL: string | null; // String
+  }
   Query: { // field return type
     GetManyUsers: Array<NexusGenRootTypes['User'] | null>; // [User]!
+    GetSingleUser: NexusGenRootTypes['User'] | null; // User
   }
   User: { // field return type
     email: string; // String!
@@ -80,6 +97,7 @@ export interface NexusGenFieldTypes {
     isAdmin: boolean; // Boolean!
     lastName: string | null; // String
     profilePictureURL: string | null; // String
+    projects: Array<NexusGenRootTypes['Project'] | null>; // [Project]!
     socialMediaURL: string | null; // String
     websiteURL: string | null; // String
   }
@@ -95,8 +113,17 @@ export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     CreateUser: 'CreateUserResponse'
   }
+  Project: { // field return type name
+    desc: 'String'
+    githubURL: 'String'
+    id: 'ID'
+    imageUrl: 'String'
+    title: 'String'
+    websiteURL: 'String'
+  }
   Query: { // field return type name
     GetManyUsers: 'User'
+    GetSingleUser: 'User'
   }
   User: { // field return type name
     email: 'String'
@@ -106,6 +133,7 @@ export interface NexusGenFieldTypeNames {
     isAdmin: 'Boolean'
     lastName: 'String'
     profilePictureURL: 'String'
+    projects: 'Project'
     socialMediaURL: 'String'
     websiteURL: 'String'
   }
@@ -123,6 +151,9 @@ export interface NexusGenArgTypes {
     GetManyUsers: { // args
       skip: number; // Int!
       take: number; // Int!
+    }
+    GetSingleUser: { // args
+      id: number; // Int!
     }
   }
 }

@@ -12,6 +12,34 @@ export const User = objectType({
     t.string("socialMediaURL");
     t.string("websiteURL");
     t.string("githubURL");
+    t.field("projects", {
+      type: nonNull(list("Project")),
+      // @ts-ignore
+      async resolve({ id }, __, { db }) {
+        try {
+          const projects = await db.project.findMany({
+            where: {
+              userId: {
+                equals: id,
+              },
+            },
+          });
+
+          return projects.map((project) => {
+            return {
+              id: project.id,
+              title: project.title,
+              imageUrl: project.imageUrl,
+              githubURL: project.githubURL,
+              websiteURL: project.websiteURL,
+              desc: project.desc,
+            };
+          });
+        } catch (error) {
+          return [];
+        }
+      },
+    });
   },
 });
 
@@ -28,21 +56,23 @@ export const createUserResponse = objectType({
 });
 
 // Queries
-
 export const getManyUsers = extendType({
   type: "Query",
   definition(t) {
     t.field("GetManyUsers", {
+      description: "Get a list of users.",
       type: nonNull(list("User")),
       args: {
         skip: nonNull(
           intArg({
             default: 0,
+            description: "The amount of entries to skip.",
           })
         ),
         take: nonNull(
           intArg({
             default: 100,
+            description: "The amount of entries to take.",
           })
         ),
       },
@@ -56,6 +86,36 @@ export const getManyUsers = extendType({
           return users;
         } catch (error) {
           return [];
+        }
+      },
+    });
+  },
+});
+
+export const getSingleUser = extendType({
+  type: "Query",
+  definition(t) {
+    t.field("GetSingleUser", {
+      description: "Get single user",
+      type: "User",
+      args: {
+        id: nonNull(
+          intArg({
+            description: "user id",
+          })
+        ),
+      },
+      async resolve(_, { id }, { db }) {
+        try {
+          const user = await db.user.findUnique({
+            where: {
+              id,
+            },
+          });
+
+          return user;
+        } catch (error) {
+          return null;
         }
       },
     });

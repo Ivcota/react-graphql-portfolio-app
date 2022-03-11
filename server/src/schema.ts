@@ -1,9 +1,9 @@
 import { makeSchema } from "nexus";
 import { join } from "path";
-import { userTypes } from "./graphql/index";
+import { projectTypes, userTypes } from "./graphql/index";
 
 export const schema: any = makeSchema({
-  types: [userTypes],
+  types: [userTypes, projectTypes],
   outputs: {
     typegen: join(__dirname, "..", "nexus-typegen.ts"), // 2
     schema: join(__dirname, "..", "schema.graphql"), // 3
