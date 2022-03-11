@@ -100,3 +100,26 @@ export const createProject = extendType({
     });
   },
 });
+
+export const deleteProject = extendType({
+  type: "Mutation",
+  definition(t) {
+    t.boolean("DeleteProject", {
+      args: {
+        id: nonNull("Int"),
+      },
+      async resolve(_, { id }, { db }) {
+        try {
+          const deleteProject = await db.project.delete({
+            where: {
+              id,
+            },
+          });
+          return true;
+        } catch (error) {
+          return false;
+        }
+      },
+    });
+  },
+});

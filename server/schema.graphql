@@ -23,6 +23,7 @@ type Mutation {
 
   """Create a single new user"""
   CreateUser(email: String!, firstName: String!, password: String!): CreateUserResponse
+  DeleteProject(id: Int!): Boolean
 }
 
 """A project object that's related to a user"""

@@ -89,6 +89,7 @@ export interface NexusGenFieldTypes {
   Mutation: { // field return type
     CreateProject: NexusGenRootTypes['CreateProjectResponse'] | null; // CreateProjectResponse
     CreateUser: NexusGenRootTypes['CreateUserResponse'] | null; // CreateUserResponse
+    DeleteProject: boolean | null; // Boolean
   }
   Project: { // field return type
     desc: string; // String!
@@ -133,6 +134,7 @@ export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     CreateProject: 'CreateProjectResponse'
     CreateUser: 'CreateUserResponse'
+    DeleteProject: 'Boolean'
   }
   Project: { // field return type name
     desc: 'String'
@@ -175,6 +177,9 @@ export interface NexusGenArgTypes {
       email: string; // String!
       firstName: string; // String!
       password: string; // String!
+    }
+    DeleteProject: { // args
+      id: number; // Int!
     }
   }
   Query: {
