@@ -2,6 +2,30 @@
 ### Do not make changes to this file directly
 
 
+type CreateUserResponse {
+  User: User
+  code: Int!
+  message: String!
+  success: Boolean!
+}
+
+type Mutation {
+  """Create a single new user"""
+  CreateUser(email: String!, firstName: String!, password: String!): CreateUserResponse
+}
+
 type Query {
   ok: Boolean!
+}
+
+type User {
+  email: String!
+  firstName: String!
+  githubURL: String
+  id: Int!
+  isAdmin: Boolean!
+  lastName: String
+  profilePictureURL: String
+  socialMediaURL: String
+  websiteURL: String
 }

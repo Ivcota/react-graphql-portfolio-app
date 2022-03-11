@@ -28,7 +28,25 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  CreateUserResponse: { // root type
+    User?: NexusGenRootTypes['User'] | null; // User
+    code: number; // Int!
+    message: string; // String!
+    success: boolean; // Boolean!
+  }
+  Mutation: {};
   Query: {};
+  User: { // root type
+    email: string; // String!
+    firstName: string; // String!
+    githubURL?: string | null; // String
+    id: number; // Int!
+    isAdmin: boolean; // Boolean!
+    lastName?: string | null; // String
+    profilePictureURL?: string | null; // String
+    socialMediaURL?: string | null; // String
+    websiteURL?: string | null; // String
+  }
 }
 
 export interface NexusGenInterfaces {
@@ -42,18 +60,65 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  CreateUserResponse: { // field return type
+    User: NexusGenRootTypes['User'] | null; // User
+    code: number; // Int!
+    message: string; // String!
+    success: boolean; // Boolean!
+  }
+  Mutation: { // field return type
+    CreateUser: NexusGenRootTypes['CreateUserResponse'] | null; // CreateUserResponse
+  }
   Query: { // field return type
     ok: boolean; // Boolean!
+  }
+  User: { // field return type
+    email: string; // String!
+    firstName: string; // String!
+    githubURL: string | null; // String
+    id: number; // Int!
+    isAdmin: boolean; // Boolean!
+    lastName: string | null; // String
+    profilePictureURL: string | null; // String
+    socialMediaURL: string | null; // String
+    websiteURL: string | null; // String
   }
 }
 
 export interface NexusGenFieldTypeNames {
+  CreateUserResponse: { // field return type name
+    User: 'User'
+    code: 'Int'
+    message: 'String'
+    success: 'Boolean'
+  }
+  Mutation: { // field return type name
+    CreateUser: 'CreateUserResponse'
+  }
   Query: { // field return type name
     ok: 'Boolean'
+  }
+  User: { // field return type name
+    email: 'String'
+    firstName: 'String'
+    githubURL: 'String'
+    id: 'Int'
+    isAdmin: 'Boolean'
+    lastName: 'String'
+    profilePictureURL: 'String'
+    socialMediaURL: 'String'
+    websiteURL: 'String'
   }
 }
 
 export interface NexusGenArgTypes {
+  Mutation: {
+    CreateUser: { // args
+      email: string; // String!
+      firstName: string; // String!
+      password: string; // String!
+    }
+  }
 }
 
 export interface NexusGenAbstractTypeMembers {
