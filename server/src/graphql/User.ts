@@ -14,7 +14,7 @@ export const User = objectType({
     t.string("githubURL");
     t.field("projects", {
       type: nonNull(list("Project")),
-      // @ts-ignore
+      // @ts-expect-error
       async resolve({ id }, __, { db }) {
         try {
           const projects = await db.project.findMany({

@@ -28,6 +28,12 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  CreateProjectResponse: { // root type
+    code: number; // Int!
+    message: string; // String!
+    project?: NexusGenRootTypes['Project'] | null; // Project
+    success: boolean; // Boolean!
+  }
   CreateUserResponse: { // root type
     User?: NexusGenRootTypes['User'] | null; // User
     code: number; // Int!
@@ -68,6 +74,12 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  CreateProjectResponse: { // field return type
+    code: number; // Int!
+    message: string; // String!
+    project: NexusGenRootTypes['Project'] | null; // Project
+    success: boolean; // Boolean!
+  }
   CreateUserResponse: { // field return type
     User: NexusGenRootTypes['User'] | null; // User
     code: number; // Int!
@@ -75,6 +87,7 @@ export interface NexusGenFieldTypes {
     success: boolean; // Boolean!
   }
   Mutation: { // field return type
+    CreateProject: NexusGenRootTypes['CreateProjectResponse'] | null; // CreateProjectResponse
     CreateUser: NexusGenRootTypes['CreateUserResponse'] | null; // CreateUserResponse
   }
   Project: { // field return type
@@ -104,6 +117,12 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  CreateProjectResponse: { // field return type name
+    code: 'Int'
+    message: 'String'
+    project: 'Project'
+    success: 'Boolean'
+  }
   CreateUserResponse: { // field return type name
     User: 'User'
     code: 'Int'
@@ -111,6 +130,7 @@ export interface NexusGenFieldTypeNames {
     success: 'Boolean'
   }
   Mutation: { // field return type name
+    CreateProject: 'CreateProjectResponse'
     CreateUser: 'CreateUserResponse'
   }
   Project: { // field return type name
@@ -141,6 +161,13 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    CreateProject: { // args
+      desc: string; // String!
+      githubURL: string; // String!
+      imageURL: string; // String!
+      title: string; // String!
+      websiteURL?: string | null; // String
+    }
     CreateUser: { // args
       email: string; // String!
       firstName: string; // String!
