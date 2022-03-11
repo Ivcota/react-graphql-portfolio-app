@@ -70,7 +70,7 @@ export interface NexusGenFieldTypes {
     CreateUser: NexusGenRootTypes['CreateUserResponse'] | null; // CreateUserResponse
   }
   Query: { // field return type
-    ok: boolean; // Boolean!
+    GetManyUsers: Array<NexusGenRootTypes['User'] | null>; // [User]!
   }
   User: { // field return type
     email: string; // String!
@@ -96,7 +96,7 @@ export interface NexusGenFieldTypeNames {
     CreateUser: 'CreateUserResponse'
   }
   Query: { // field return type name
-    ok: 'Boolean'
+    GetManyUsers: 'User'
   }
   User: { // field return type name
     email: 'String'
@@ -117,6 +117,12 @@ export interface NexusGenArgTypes {
       email: string; // String!
       firstName: string; // String!
       password: string; // String!
+    }
+  }
+  Query: {
+    GetManyUsers: { // args
+      skip: number; // Int!
+      take: number; // Int!
     }
   }
 }

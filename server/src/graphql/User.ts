@@ -1,4 +1,4 @@
-import { extendType, nonNull, objectType } from "nexus";
+import { extendType, intArg, list, nonNull, objectType } from "nexus";
 
 export const User = objectType({
   name: "User",
@@ -28,6 +28,39 @@ export const createUserResponse = objectType({
 });
 
 // Queries
+
+export const getManyUsers = extendType({
+  type: "Query",
+  definition(t) {
+    t.field("GetManyUsers", {
+      type: nonNull(list("User")),
+      args: {
+        skip: nonNull(
+          intArg({
+            default: 0,
+          })
+        ),
+        take: nonNull(
+          intArg({
+            default: 100,
+          })
+        ),
+      },
+      async resolve(_, { skip, take }, { db }) {
+        try {
+          const users = await db.user.findMany({
+            skip,
+            take,
+          });
+
+          return users;
+        } catch (error) {
+          return [];
+        }
+      },
+    });
+  },
+});
 
 // Mutations
 export const createUser = extendType({
