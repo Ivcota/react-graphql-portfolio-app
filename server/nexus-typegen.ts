@@ -101,6 +101,7 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     GetManyUsers: Array<NexusGenRootTypes['User'] | null>; // [User]!
     GetSingleUser: NexusGenRootTypes['User'] | null; // User
+    SingleProject: NexusGenRootTypes['Project']; // Project!
   }
   User: { // field return type
     email: string; // String!
@@ -144,6 +145,7 @@ export interface NexusGenFieldTypeNames {
   Query: { // field return type name
     GetManyUsers: 'User'
     GetSingleUser: 'User'
+    SingleProject: 'Project'
   }
   User: { // field return type name
     email: 'String'
@@ -181,6 +183,9 @@ export interface NexusGenArgTypes {
       take: number; // Int!
     }
     GetSingleUser: { // args
+      id: number; // Int!
+    }
+    SingleProject: { // args
       id: number; // Int!
     }
   }

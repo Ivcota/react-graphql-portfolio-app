@@ -2,6 +2,7 @@
 ### Do not make changes to this file directly
 
 
+"""Response object for the createProject mutation"""
 type CreateProjectResponse {
   code: Int!
   message: String!
@@ -17,12 +18,14 @@ type CreateUserResponse {
 }
 
 type Mutation {
+  """Create a new project serverside"""
   CreateProject(desc: String!, githubURL: String!, imageUrl: String!, title: String!, userId: Int, websiteURL: String): CreateProjectResponse
 
   """Create a single new user"""
   CreateUser(email: String!, firstName: String!, password: String!): CreateUserResponse
 }
 
+"""A project object that's related to a user"""
 type Project {
   desc: String!
   githubURL: String!
@@ -47,6 +50,10 @@ type Query {
     """user id"""
     id: Int!
   ): User
+  SingleProject(
+    """Project ID"""
+    id: Int!
+  ): Project!
 }
 
 type User {
