@@ -1,4 +1,4 @@
-# Portfolio Stacker: A FullStack PERN Application.
+# Portfolio Stacker: A FullStack PERN Application
 
 This is a very simple implementation of a react front-end and graphql, express backend.
 
