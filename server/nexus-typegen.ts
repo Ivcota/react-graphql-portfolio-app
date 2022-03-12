@@ -45,6 +45,7 @@ export interface NexusGenObjects {
   }
   Query: {};
   User: { // root type
+    JWT?: string | null; // String
     email: string; // String!
     firstName: string; // String!
     githubURL?: string | null; // String
@@ -60,6 +61,7 @@ export interface NexusGenObjects {
     code: number; // Int!
     message: string; // String!
     success: boolean; // Boolean!
+    token?: string | null; // String
   }
 }
 
@@ -81,6 +83,7 @@ export interface NexusGenFieldTypes {
     DeleteUser: boolean | null; // Boolean
     EditProject: NexusGenRootTypes['ProjectResponse']; // ProjectResponse!
     EditUser: NexusGenRootTypes['UserResponse']; // UserResponse!
+    UserLogin: NexusGenRootTypes['UserResponse'] | null; // UserResponse
   }
   Project: { // field return type
     desc: string; // String!
@@ -102,6 +105,7 @@ export interface NexusGenFieldTypes {
     SingleProject: NexusGenRootTypes['Project']; // Project!
   }
   User: { // field return type
+    JWT: string | null; // String
     email: string; // String!
     firstName: string; // String!
     githubURL: string | null; // String
@@ -118,6 +122,7 @@ export interface NexusGenFieldTypes {
     code: number; // Int!
     message: string; // String!
     success: boolean; // Boolean!
+    token: string | null; // String
   }
 }
 
@@ -129,6 +134,7 @@ export interface NexusGenFieldTypeNames {
     DeleteUser: 'Boolean'
     EditProject: 'ProjectResponse'
     EditUser: 'UserResponse'
+    UserLogin: 'UserResponse'
   }
   Project: { // field return type name
     desc: 'String'
@@ -150,6 +156,7 @@ export interface NexusGenFieldTypeNames {
     SingleProject: 'Project'
   }
   User: { // field return type name
+    JWT: 'String'
     email: 'String'
     firstName: 'String'
     githubURL: 'String'
@@ -166,6 +173,7 @@ export interface NexusGenFieldTypeNames {
     code: 'Int'
     message: 'String'
     success: 'Boolean'
+    token: 'String'
   }
 }
 
@@ -206,6 +214,10 @@ export interface NexusGenArgTypes {
       profilePictureURL?: string | null; // String
       socialMediaURL?: string | null; // String
       websiteURL?: string | null; // String
+    }
+    UserLogin: { // args
+      email: string; // String!
+      password: string; // String!
     }
   }
   Query: {

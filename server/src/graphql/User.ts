@@ -1,4 +1,9 @@
 import { extendType, intArg, list, nonNull, objectType } from "nexus";
+import jwt from "jsonwebtoken";
+import bycrpt from "bcryptjs";
+
+import dotenv from "dotenv";
+dotenv.config();
 
 export const User = objectType({
   name: "User",
@@ -43,6 +48,13 @@ export const User = objectType({
   },
 });
 
+export const UserJWT = extendType({
+  type: "User",
+  definition(t) {
+    t.string("JWT");
+  },
+});
+
 export const UserResponse = objectType({
   name: "UserResponse",
   definition(t) {
@@ -52,6 +64,7 @@ export const UserResponse = objectType({
     t.nullable.field("User", {
       type: "User",
     });
+    t.string("token");
   },
 });
 
@@ -137,13 +150,26 @@ export const createUser = extendType({
       // @ts-expect-error
       async resolve(_, { firstName, email, password }, { db }) {
         try {
+          const salt = await bycrpt.genSalt(10);
+          const hash = await bycrpt.hash(password, salt);
+
           const user = await db.user.create({
             data: {
               firstName,
               email,
-              password,
+              password: hash,
             },
           });
+
+          const token = jwt.sign(
+            {
+              id: user.id,
+            },
+            process.env.JWT_SECRET as string,
+            {
+              expiresIn: "30d",
+            }
+          );
 
           return {
             code: 200,
@@ -155,6 +181,7 @@ export const createUser = extendType({
               email: user.email,
               isAdmin: false,
             },
+            token,
           };
         } catch (error) {
           return {
@@ -162,6 +189,65 @@ export const createUser = extendType({
             success: false,
             message: error,
             User: null,
+          };
+        }
+      },
+    });
+  },
+});
+
+export const userLogin = extendType({
+  type: "Mutation",
+  definition(t) {
+    t.field("UserLogin", {
+      type: "UserResponse",
+      args: {
+        email: nonNull("String"),
+        password: nonNull("String"),
+      },
+      // @ts-expect-error
+      async resolve(_, { email, password }, { db }) {
+        try {
+          const user = await db.user.findFirst({
+            where: {
+              email: email.toLowerCase(),
+            },
+          });
+          const isMatch = await bycrpt.compare(
+            password,
+            user?.password as string
+          );
+
+          const token = jwt.sign(
+            {
+              id: user?.id,
+            },
+            process.env.JWT_SECRET as string,
+            {
+              expiresIn: "30d",
+            }
+          );
+
+          if (isMatch) {
+            return {
+              code: 200,
+              success: true,
+              message: "login successful",
+              User: user,
+              token,
+            };
+          } else {
+            return {
+              code: 400,
+              message: "Incorrect credentials",
+              success: false,
+            };
+          }
+        } catch (error) {
+          return {
+            code: 400,
+            message: error,
+            success: false,
           };
         }
       },
