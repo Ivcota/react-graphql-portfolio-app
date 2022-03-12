@@ -1,4 +1,9 @@
 import { extendType, intArg, list, nonNull, objectType } from "nexus";
+import jwt from "jsonwebtoken";
+import bycrpt from "bcryptjs";
+
+import dotenv from "dotenv";
+dotenv.config();
 
 export const User = objectType({
   name: "User",
@@ -137,11 +142,14 @@ export const createUser = extendType({
       // @ts-expect-error
       async resolve(_, { firstName, email, password }, { db }) {
         try {
+          const salt = await bycrpt.genSalt(10);
+          const hash = await bycrpt.hash(password, salt);
+
           const user = await db.user.create({
             data: {
               firstName,
               email,
-              password,
+              password: hash,
             },
           });
 
