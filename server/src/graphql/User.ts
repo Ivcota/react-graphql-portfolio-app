@@ -196,6 +196,65 @@ export const createUser = extendType({
   },
 });
 
+export const userLogin = extendType({
+  type: "Mutation",
+  definition(t) {
+    t.field("UserLogin", {
+      type: "UserResponse",
+      args: {
+        email: nonNull("String"),
+        password: nonNull("String"),
+      },
+      // @ts-expect-error
+      async resolve(_, { email, password }, { db }) {
+        try {
+          const user = await db.user.findFirst({
+            where: {
+              email: email.toLowerCase(),
+            },
+          });
+          const isMatch = await bycrpt.compare(
+            password,
+            user?.password as string
+          );
+
+          const token = jwt.sign(
+            {
+              id: user?.id,
+            },
+            process.env.JWT_SECRET as string,
+            {
+              expiresIn: "30d",
+            }
+          );
+
+          if (isMatch) {
+            return {
+              code: 200,
+              success: true,
+              message: "login successful",
+              User: user,
+              token,
+            };
+          } else {
+            return {
+              code: 400,
+              message: "Incorrect credentials",
+              success: false,
+            };
+          }
+        } catch (error) {
+          return {
+            code: 400,
+            message: error,
+            success: false,
+          };
+        }
+      },
+    });
+  },
+});
+
 export const editUser = extendType({
   type: "Mutation",
   definition(t) {

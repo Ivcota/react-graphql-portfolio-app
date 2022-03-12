@@ -83,6 +83,7 @@ export interface NexusGenFieldTypes {
     DeleteUser: boolean | null; // Boolean
     EditProject: NexusGenRootTypes['ProjectResponse']; // ProjectResponse!
     EditUser: NexusGenRootTypes['UserResponse']; // UserResponse!
+    UserLogin: NexusGenRootTypes['UserResponse'] | null; // UserResponse
   }
   Project: { // field return type
     desc: string; // String!
@@ -133,6 +134,7 @@ export interface NexusGenFieldTypeNames {
     DeleteUser: 'Boolean'
     EditProject: 'ProjectResponse'
     EditUser: 'UserResponse'
+    UserLogin: 'UserResponse'
   }
   Project: { // field return type name
     desc: 'String'
@@ -212,6 +214,10 @@ export interface NexusGenArgTypes {
       profilePictureURL?: string | null; // String
       socialMediaURL?: string | null; // String
       websiteURL?: string | null; // String
+    }
+    UserLogin: { // args
+      email: string; // String!
+      password: string; // String!
     }
   }
   Query: {
