@@ -215,3 +215,28 @@ export const editUser = extendType({
     });
   },
 });
+
+export const deleteUser = extendType({
+  type: "Mutation",
+  definition(t) {
+    t.field("DeleteUser", {
+      type: "Boolean",
+      args: {
+        id: nonNull("Int"),
+      },
+      async resolve(_, { id }, { db }) {
+        try {
+          await db.user.delete({
+            where: {
+              id,
+            },
+          });
+
+          return true;
+        } catch (error) {
+          return false;
+        }
+      },
+    });
+  },
+});

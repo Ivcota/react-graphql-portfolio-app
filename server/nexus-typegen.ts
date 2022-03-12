@@ -78,6 +78,7 @@ export interface NexusGenFieldTypes {
     CreateProject: NexusGenRootTypes['ProjectResponse'] | null; // ProjectResponse
     CreateUser: NexusGenRootTypes['UserResponse'] | null; // UserResponse
     DeleteProject: boolean | null; // Boolean
+    DeleteUser: boolean | null; // Boolean
     EditProject: NexusGenRootTypes['ProjectResponse']; // ProjectResponse!
     EditUser: NexusGenRootTypes['UserResponse']; // UserResponse!
   }
@@ -125,6 +126,7 @@ export interface NexusGenFieldTypeNames {
     CreateProject: 'ProjectResponse'
     CreateUser: 'UserResponse'
     DeleteProject: 'Boolean'
+    DeleteUser: 'Boolean'
     EditProject: 'ProjectResponse'
     EditUser: 'UserResponse'
   }
@@ -183,6 +185,9 @@ export interface NexusGenArgTypes {
       password: string; // String!
     }
     DeleteProject: { // args
+      id: number; // Int!
+    }
+    DeleteUser: { // args
       id: number; // Int!
     }
     EditProject: { // args
