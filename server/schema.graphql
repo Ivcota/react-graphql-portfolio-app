@@ -2,21 +2,16 @@
 ### Do not make changes to this file directly
 
 
-type CreateUserResponse {
-  User: User
-  code: Int!
-  message: String!
-  success: Boolean!
-}
-
 type Mutation {
   """Create a new project serverside"""
   CreateProject(desc: String!, githubURL: String!, imageUrl: String!, title: String!, userId: Int, websiteURL: String): ProjectResponse
 
   """Create a single new user"""
-  CreateUser(email: String!, firstName: String!, password: String!): CreateUserResponse
+  CreateUser(email: String!, firstName: String!, password: String!): UserResponse
   DeleteProject(id: Int!): Boolean
+  DeleteUser(id: Int!): Boolean
   EditProject(desc: String, githubURL: String, id: Int!, imageUrl: String, title: String, websiteURL: String): ProjectResponse!
+  EditUser(firstName: String, githubURL: String, id: Int!, lastName: String, profilePictureURL: String, socialMediaURL: String, websiteURL: String): UserResponse!
 }
 
 """A project object that's related to a user"""
@@ -69,4 +64,11 @@ type User {
   projects: [Project]!
   socialMediaURL: String
   websiteURL: String
+}
+
+type UserResponse {
+  User: User
+  code: Int!
+  message: String!
+  success: Boolean!
 }

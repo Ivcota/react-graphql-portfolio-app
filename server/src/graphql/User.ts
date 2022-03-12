@@ -43,8 +43,8 @@ export const User = objectType({
   },
 });
 
-export const createUserResponse = objectType({
-  name: "CreateUserResponse",
+export const UserResponse = objectType({
+  name: "UserResponse",
   definition(t) {
     t.nonNull.int("code");
     t.nonNull.boolean("success");
@@ -128,7 +128,7 @@ export const createUser = extendType({
   definition(t) {
     t.field("CreateUser", {
       description: "Create a single new user",
-      type: "CreateUserResponse",
+      type: "UserResponse",
       args: {
         firstName: nonNull("String"),
         email: nonNull("String"),
@@ -163,6 +163,78 @@ export const createUser = extendType({
             message: error,
             User: null,
           };
+        }
+      },
+    });
+  },
+});
+
+export const editUser = extendType({
+  type: "Mutation",
+  definition(t) {
+    t.nonNull.field("EditUser", {
+      type: "UserResponse",
+      args: {
+        id: nonNull("Int"),
+        firstName: "String",
+        lastName: "String",
+        websiteURL: "String",
+        githubURL: "String",
+        profilePictureURL: "String",
+        socialMediaURL: "String",
+      },
+      async resolve(_, args, { db }) {
+        const user = await db.user.findUnique({
+          where: {
+            id: args.id,
+          },
+        });
+
+        const updatedUser = await db.user.update({
+          where: {
+            id: args.id,
+          },
+          data: {
+            firstName: args.firstName || user?.firstName,
+            lastName: args.lastName || user?.lastName,
+            profilePictureURL:
+              args.profilePictureURL || user?.profilePictureURL,
+            githubURL: args.githubURL || user?.githubURL,
+            socialMediaURL: args.socialMediaURL || user?.socialMediaURL,
+            websiteURL: args.websiteURL || user?.websiteURL,
+          },
+        });
+
+        return {
+          code: 200,
+          message: "User updated",
+          success: true,
+          User: updatedUser,
+        };
+      },
+    });
+  },
+});
+
+export const deleteUser = extendType({
+  type: "Mutation",
+  definition(t) {
+    t.field("DeleteUser", {
+      type: "Boolean",
+      args: {
+        id: nonNull("Int"),
+      },
+      async resolve(_, { id }, { db }) {
+        try {
+          await db.user.delete({
+            where: {
+              id,
+            },
+          });
+
+          return true;
+        } catch (error) {
+          return false;
         }
       },
     });
