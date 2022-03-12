@@ -54,6 +54,7 @@ type Query {
 }
 
 type User {
+  JWT: String
   email: String!
   firstName: String!
   githubURL: String
@@ -71,4 +72,5 @@ type UserResponse {
   code: Int!
   message: String!
   success: Boolean!
+  token: String
 }

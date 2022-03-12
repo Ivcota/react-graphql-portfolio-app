@@ -48,6 +48,13 @@ export const User = objectType({
   },
 });
 
+export const UserJWT = extendType({
+  type: "User",
+  definition(t) {
+    t.string("JWT");
+  },
+});
+
 export const UserResponse = objectType({
   name: "UserResponse",
   definition(t) {
@@ -57,6 +64,7 @@ export const UserResponse = objectType({
     t.nullable.field("User", {
       type: "User",
     });
+    t.string("token");
   },
 });
 
@@ -153,6 +161,16 @@ export const createUser = extendType({
             },
           });
 
+          const token = jwt.sign(
+            {
+              id: user.id,
+            },
+            process.env.JWT_SECRET as string,
+            {
+              expiresIn: "30d",
+            }
+          );
+
           return {
             code: 200,
             success: true,
@@ -163,6 +181,7 @@ export const createUser = extendType({
               email: user.email,
               isAdmin: false,
             },
+            token,
           };
         } catch (error) {
           return {
