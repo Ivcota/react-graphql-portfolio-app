@@ -2,14 +2,6 @@
 ### Do not make changes to this file directly
 
 
-"""Response object for the createProject mutation"""
-type CreateProjectResponse {
-  code: Int!
-  message: String!
-  project: Project
-  success: Boolean!
-}
-
 type CreateUserResponse {
   User: User
   code: Int!
@@ -19,10 +11,12 @@ type CreateUserResponse {
 
 type Mutation {
   """Create a new project serverside"""
-  CreateProject(desc: String!, githubURL: String!, imageUrl: String!, title: String!, userId: Int, websiteURL: String): CreateProjectResponse
+  CreateProject(desc: String!, githubURL: String!, imageUrl: String!, title: String!, userId: Int, websiteURL: String): ProjectResponse
 
   """Create a single new user"""
   CreateUser(email: String!, firstName: String!, password: String!): CreateUserResponse
+  DeleteProject(id: Int!): Boolean
+  EditProject(desc: String, githubURL: String, id: Int!, imageUrl: String, title: String, websiteURL: String): ProjectResponse!
 }
 
 """A project object that's related to a user"""
@@ -33,6 +27,14 @@ type Project {
   imageUrl: String!
   title: String!
   websiteURL: String
+}
+
+"""Response object for the createProject mutation"""
+type ProjectResponse {
+  code: Int!
+  message: String!
+  project: Project
+  success: Boolean!
 }
 
 type Query {
