@@ -28,12 +28,6 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
-  CreateProjectResponse: { // root type
-    code: number; // Int!
-    message: string; // String!
-    project?: NexusGenRootTypes['Project'] | null; // Project
-    success: boolean; // Boolean!
-  }
   CreateUserResponse: { // root type
     User?: NexusGenRootTypes['User'] | null; // User
     code: number; // Int!
@@ -48,6 +42,12 @@ export interface NexusGenObjects {
     imageUrl: string; // String!
     title: string; // String!
     websiteURL?: string | null; // String
+  }
+  ProjectResponse: { // root type
+    code: number; // Int!
+    message: string; // String!
+    project?: NexusGenRootTypes['Project'] | null; // Project
+    success: boolean; // Boolean!
   }
   Query: {};
   User: { // root type
@@ -74,12 +74,6 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
-  CreateProjectResponse: { // field return type
-    code: number; // Int!
-    message: string; // String!
-    project: NexusGenRootTypes['Project'] | null; // Project
-    success: boolean; // Boolean!
-  }
   CreateUserResponse: { // field return type
     User: NexusGenRootTypes['User'] | null; // User
     code: number; // Int!
@@ -87,9 +81,10 @@ export interface NexusGenFieldTypes {
     success: boolean; // Boolean!
   }
   Mutation: { // field return type
-    CreateProject: NexusGenRootTypes['CreateProjectResponse'] | null; // CreateProjectResponse
+    CreateProject: NexusGenRootTypes['ProjectResponse'] | null; // ProjectResponse
     CreateUser: NexusGenRootTypes['CreateUserResponse'] | null; // CreateUserResponse
     DeleteProject: boolean | null; // Boolean
+    EditProject: NexusGenRootTypes['ProjectResponse']; // ProjectResponse!
   }
   Project: { // field return type
     desc: string; // String!
@@ -98,6 +93,12 @@ export interface NexusGenFieldTypes {
     imageUrl: string; // String!
     title: string; // String!
     websiteURL: string | null; // String
+  }
+  ProjectResponse: { // field return type
+    code: number; // Int!
+    message: string; // String!
+    project: NexusGenRootTypes['Project'] | null; // Project
+    success: boolean; // Boolean!
   }
   Query: { // field return type
     GetManyUsers: Array<NexusGenRootTypes['User'] | null>; // [User]!
@@ -119,12 +120,6 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
-  CreateProjectResponse: { // field return type name
-    code: 'Int'
-    message: 'String'
-    project: 'Project'
-    success: 'Boolean'
-  }
   CreateUserResponse: { // field return type name
     User: 'User'
     code: 'Int'
@@ -132,9 +127,10 @@ export interface NexusGenFieldTypeNames {
     success: 'Boolean'
   }
   Mutation: { // field return type name
-    CreateProject: 'CreateProjectResponse'
+    CreateProject: 'ProjectResponse'
     CreateUser: 'CreateUserResponse'
     DeleteProject: 'Boolean'
+    EditProject: 'ProjectResponse'
   }
   Project: { // field return type name
     desc: 'String'
@@ -143,6 +139,12 @@ export interface NexusGenFieldTypeNames {
     imageUrl: 'String'
     title: 'String'
     websiteURL: 'String'
+  }
+  ProjectResponse: { // field return type name
+    code: 'Int'
+    message: 'String'
+    project: 'Project'
+    success: 'Boolean'
   }
   Query: { // field return type name
     GetManyUsers: 'User'
@@ -180,6 +182,14 @@ export interface NexusGenArgTypes {
     }
     DeleteProject: { // args
       id: number; // Int!
+    }
+    EditProject: { // args
+      desc?: string | null; // String
+      githubURL?: string | null; // String
+      id: number; // Int!
+      imageUrl?: string | null; // String
+      title?: string | null; // String
+      websiteURL?: string | null; // String
     }
   }
   Query: {
