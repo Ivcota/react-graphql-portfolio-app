@@ -2,6 +2,14 @@
 
 This is a very simple implementation of a react front-end and graphql, express backend.
 
+Application Stack:
+
+- Postgres
+- React (NextJS)
+- NodeJS
+- Express
+- ApolloServer (GraphQL)
+
 Here's everything this application will include: 
 
 - User Login and Registration
