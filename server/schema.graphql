@@ -2,6 +2,12 @@
 ### Do not make changes to this file directly
 
 
+type FileResponse {
+  fileURL: String!
+  filename: String
+  success: Boolean!
+}
+
 type Mutation {
   """Create a new project serverside"""
   CreateProject(desc: String!, githubURL: String!, imageUrl: String!, title: String!, userId: Int, websiteURL: String): ProjectResponse
@@ -53,6 +59,9 @@ type Query {
     id: Int!
   ): Project!
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 type User {
   JWT: String
