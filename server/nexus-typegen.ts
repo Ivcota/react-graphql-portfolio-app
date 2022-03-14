@@ -25,9 +25,15 @@ export interface NexusGenScalars {
   Float: number
   Boolean: boolean
   ID: string
+  Upload: any
 }
 
 export interface NexusGenObjects {
+  FileResponse: { // root type
+    fileURL: string; // String!
+    filename?: string | null; // String
+    success: boolean; // Boolean!
+  }
   Mutation: {};
   Project: { // root type
     desc: string; // String!
@@ -76,6 +82,11 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  FileResponse: { // field return type
+    fileURL: string; // String!
+    filename: string | null; // String
+    success: boolean; // Boolean!
+  }
   Mutation: { // field return type
     CreateProject: NexusGenRootTypes['ProjectResponse'] | null; // ProjectResponse
     CreateUser: NexusGenRootTypes['UserResponse'] | null; // UserResponse
@@ -83,6 +94,7 @@ export interface NexusGenFieldTypes {
     DeleteUser: boolean | null; // Boolean
     EditProject: NexusGenRootTypes['ProjectResponse']; // ProjectResponse!
     EditUser: NexusGenRootTypes['UserResponse']; // UserResponse!
+    UploadFile: NexusGenRootTypes['FileResponse']; // FileResponse!
     UserLogin: NexusGenRootTypes['UserResponse'] | null; // UserResponse
   }
   Project: { // field return type
@@ -127,6 +139,11 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  FileResponse: { // field return type name
+    fileURL: 'String'
+    filename: 'String'
+    success: 'Boolean'
+  }
   Mutation: { // field return type name
     CreateProject: 'ProjectResponse'
     CreateUser: 'UserResponse'
@@ -134,6 +151,7 @@ export interface NexusGenFieldTypeNames {
     DeleteUser: 'Boolean'
     EditProject: 'ProjectResponse'
     EditUser: 'UserResponse'
+    UploadFile: 'FileResponse'
     UserLogin: 'UserResponse'
   }
   Project: { // field return type name
@@ -214,6 +232,9 @@ export interface NexusGenArgTypes {
       profilePictureURL?: string | null; // String
       socialMediaURL?: string | null; // String
       websiteURL?: string | null; // String
+    }
+    UploadFile: { // args
+      file: NexusGenScalars['Upload']; // Upload!
     }
     UserLogin: { // args
       email: string; // String!
