@@ -1,6 +1,8 @@
 import { extendType, nonNull, objectType } from "nexus";
 import { bucket } from "../libs/googleCloudStorage";
 import { FileUpload } from "./../../node_modules/@types/graphql-upload/index.d";
+import dayjs from "dayjs";
+import { generateUniqueName } from "./../libs/functions";
 
 export const FileResponse = objectType({
   name: "FileResponse",
@@ -24,10 +26,12 @@ export const uploadFile = extendType({
           const { createReadStream, filename, mimetype, encoding } =
             (await file) as FileUpload;
 
+          const uniqueFileName = generateUniqueName(filename);
+
           await new Promise((resolve, reject) => {
             createReadStream().pipe(
               bucket
-                .file(filename)
+                .file(uniqueFileName)
                 .createWriteStream({
                   resumable: false,
                   gzip: true,
@@ -41,7 +45,7 @@ export const uploadFile = extendType({
 
           return {
             success: true,
-            fileURL: `https://storage.googleapis.com/${process.env.GCP_BUCKET_ID}/${filename}`,
+            fileURL: `https://storage.googleapis.com/${process.env.GCP_BUCKET_ID}/${uniqueFileName}`,
           };
         } catch (error) {
           console.log(error);
