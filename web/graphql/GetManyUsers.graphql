@@ -1,0 +1,13 @@
+query GetManyUsers {
+  GetManyUsers {
+    id
+    email
+    firstName
+    lastName
+    isAdmin
+    profilePictureURL
+    socialMediaURL
+    websiteURL
+    githubURL
+  }
+}
