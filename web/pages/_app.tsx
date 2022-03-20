@@ -10,7 +10,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider value={client}>
       <div className="dark">
-        <div className="min-h-screen dark:bg-slate-800 text-slate-100">
+        <div className="min-h-screen dark:bg-slate-800 dark:text-slate-100 font-body">
           <Component {...pageProps} />
         </div>
       </div>
