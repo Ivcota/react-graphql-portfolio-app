@@ -9,7 +9,11 @@ const client = createClient({
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider value={client}>
-      <Component {...pageProps} />
+      <div className="dark">
+        <div className="min-h-screen dark:bg-slate-800 text-slate-100">
+          <Component {...pageProps} />
+        </div>
+      </div>
     </Provider>
   );
 }
