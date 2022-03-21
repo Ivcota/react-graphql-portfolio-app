@@ -82,7 +82,7 @@ export const getManyUsers = extendType({
           })
         ),
       },
-      async resolve(_, { skip, take }, { db }) {
+      async resolve(_, { skip, take }, { db, req }) {
         try {
           const users = await db.user.findMany({
             skip,
