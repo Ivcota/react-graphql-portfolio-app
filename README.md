@@ -10,6 +10,9 @@ Application Stack:
 - Express
 - ApolloServer (GraphQL)
 
+Just for fun:
+- Redux for Global Auth State
+
 Here's everything this application will include: 
 
 - User Login and Registration
