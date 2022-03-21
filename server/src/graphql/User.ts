@@ -48,13 +48,6 @@ export const User = objectType({
   },
 });
 
-export const UserJWT = extendType({
-  type: "User",
-  definition(t) {
-    t.string("JWT");
-  },
-});
-
 export const UserResponse = objectType({
   name: "UserResponse",
   definition(t) {

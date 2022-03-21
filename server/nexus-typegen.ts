@@ -51,7 +51,6 @@ export interface NexusGenObjects {
   }
   Query: {};
   User: { // root type
-    JWT?: string | null; // String
     email: string; // String!
     firstName: string; // String!
     githubURL?: string | null; // String
@@ -117,7 +116,6 @@ export interface NexusGenFieldTypes {
     SingleProject: NexusGenRootTypes['Project']; // Project!
   }
   User: { // field return type
-    JWT: string | null; // String
     email: string; // String!
     firstName: string; // String!
     githubURL: string | null; // String
@@ -174,7 +172,6 @@ export interface NexusGenFieldTypeNames {
     SingleProject: 'Project'
   }
   User: { // field return type name
-    JWT: 'String'
     email: 'String'
     firstName: 'String'
     githubURL: 'String'
