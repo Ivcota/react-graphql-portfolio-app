@@ -59,7 +59,8 @@ type Query {
     """Project ID"""
     id: Int!
   ): Project!
-  message: String
+  session: String
+  test: String
 }
 
 """The `Upload` scalar type represents a file upload."""

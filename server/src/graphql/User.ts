@@ -1,8 +1,8 @@
 import { extendType, intArg, list, nonNull, objectType } from "nexus";
 import jwt from "jsonwebtoken";
 import bycrpt from "bcryptjs";
-
 import dotenv from "dotenv";
+
 dotenv.config();
 
 export const User = objectType({
@@ -141,7 +141,7 @@ export const createUser = extendType({
         password: nonNull("String"),
       },
       // @ts-expect-error
-      async resolve(_, { firstName, email, password }, { db }) {
+      async resolve(_, { firstName, email, password }, { db, req }) {
         try {
           const salt = await bycrpt.genSalt(10);
           const hash = await bycrpt.hash(password, salt);
@@ -163,6 +163,8 @@ export const createUser = extendType({
               expiresIn: "30d",
             }
           );
+
+          (req.session as any).userId = user.id;
 
           return {
             code: 200,
@@ -199,7 +201,7 @@ export const userLogin = extendType({
         password: nonNull("String"),
       },
       // @ts-expect-error
-      async resolve(_, { email, password }, { db }) {
+      async resolve(_, { email, password }, { db, req }) {
         try {
           const user = await db.user.findFirst({
             where: {
@@ -222,6 +224,8 @@ export const userLogin = extendType({
           );
 
           if (isMatch) {
+            (req.session as any).userId = user?.id;
+
             return {
               code: 200,
               success: true,
