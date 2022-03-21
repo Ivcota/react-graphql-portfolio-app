@@ -1,4 +1,5 @@
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login, signOut } from "../app/features/auth/authSlices";
@@ -8,6 +9,7 @@ import Logo from "../components/Logo";
 const Home: NextPage = () => {
   const auth = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
+  const router = useRouter();
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen gap-4">
@@ -19,23 +21,14 @@ const Home: NextPage = () => {
       )}
       {auth.isAuth ? (
         <button
-          onClick={() => dispatch(signOut())}
+          onClick={() => router.push("/auth/login")}
           className="py-2 rounded-sm dark:text-steel-900 dark:bg-steel-100 w-52 dark:focus:bg-steel-300"
         >
           Sign Out
         </button>
       ) : (
         <button
-          onClick={() =>
-            dispatch(
-              login({
-                id: 10,
-                isAuth: true,
-                name: "Iverson",
-                token: "random-token-dummy-text",
-              })
-            )
-          }
+          onClick={() => router.push("/auth/login")}
           className="btn-primary"
         >
           Get Started
