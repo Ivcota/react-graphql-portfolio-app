@@ -2,6 +2,7 @@ import React from "react";
 import Logo from "../../components/Logo";
 import { Field, Form, Formik } from "formik";
 import FormikField from "../../components/FormikField";
+import * as Yup from "yup";
 
 const LoginPage = () => {
   return (
