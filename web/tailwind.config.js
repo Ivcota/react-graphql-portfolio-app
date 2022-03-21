@@ -7,6 +7,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
+        logo: ["Satisfy"],
         body: ["Inter"],
       },
       colors: {
