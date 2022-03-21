@@ -1,10 +1,11 @@
 import { PrismaClient } from "@prisma/client";
 import { Request } from "express";
+import { CustomRequest } from "./types";
 const prisma = new PrismaClient();
 
 export interface Context {
   db: PrismaClient;
-  req: Request;
+  req: CustomRequest;
 }
 
 // Add the express request object to the context

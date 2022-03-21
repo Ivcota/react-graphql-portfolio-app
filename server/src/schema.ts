@@ -1,10 +1,15 @@
 import { GraphQLUpload } from "graphql-upload";
 import { makeSchema } from "nexus";
 import { join } from "path";
-import { projectTypes, userTypes, uploadTypes } from "./graphql/index";
+import {
+  projectTypes,
+  userTypes,
+  uploadTypes,
+  sandboxTypes,
+} from "./graphql/index";
 
 export const schema: any = makeSchema({
-  types: [userTypes, projectTypes, uploadTypes, GraphQLUpload],
+  types: [userTypes, projectTypes, uploadTypes, GraphQLUpload, sandboxTypes],
   outputs: {
     typegen: join(__dirname, "..", "nexus-typegen.ts"), // 2
     schema: join(__dirname, "..", "schema.graphql"), // 3
