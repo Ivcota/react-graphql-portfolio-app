@@ -1,6 +1,8 @@
-import "../styles/globals.css";
 import type { AppProps } from "next/app";
+import { Provider as ReduxProvider } from "react-redux";
 import { createClient, Provider } from "urql";
+import { store } from "../app/store";
+import "../styles/globals.css";
 
 const client = createClient({
   url: "http://localhost:4000/graphql",
@@ -8,13 +10,15 @@ const client = createClient({
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <Provider value={client}>
-      <div className="dark">
-        <div className="min-h-screen dark:bg-steel-900 dark:text-steel-100 font-body">
-          <Component {...pageProps} />
+    <ReduxProvider store={store}>
+      <Provider value={client}>
+        <div className="dark">
+          <div className="min-h-screen dark:bg-steel-900 dark:text-steel-100 font-body">
+            <Component {...pageProps} />
+          </div>
         </div>
-      </div>
-    </Provider>
+      </Provider>
+    </ReduxProvider>
   );
 }
 
