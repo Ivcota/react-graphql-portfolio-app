@@ -24,10 +24,9 @@ const LoginPage = () => {
           password: Yup.string()
             .required("Password is required")
             .min(8, "Password should be at least 8 characters long"),
-          confirmPassword: Yup.string().equals(
-            [Yup.ref("password")],
-            "Password must match"
-          ),
+          confirmPassword: Yup.string()
+            .equals([Yup.ref("password")], "Password must match")
+            .required("This field is required"),
           firstName: Yup.string().required("First name is required"),
         })}
       >
