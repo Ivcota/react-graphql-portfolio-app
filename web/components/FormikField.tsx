@@ -14,7 +14,7 @@ const FormikField: FC<Props> = ({ type, name, required, children }) => {
       <Field
         type={type}
         name={name}
-        className="p-1 transition-all duration-300 rounded-sm outline-none focus:ring dark:ring-steel-500 text-steel-900"
+        className="min-w-full p-1 transition-all duration-300 rounded-sm outline-none focus:ring dark:ring-steel-500 text-steel-900"
         autoComplete="off"
         required={required}
       />
