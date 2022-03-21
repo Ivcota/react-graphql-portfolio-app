@@ -3,6 +3,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login, signOut } from "../app/features/auth/authSlices";
 import { RootState } from "../app/store";
+import Logo from "../components/Logo";
 
 const Home: NextPage = () => {
   const auth = useSelector((state: RootState) => state.auth);
@@ -10,7 +11,7 @@ const Home: NextPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen gap-4">
-      <h1 className="text-3xl font-logo">Portfolio Stacker</h1>
+      <Logo />
       {auth.isAuth ? (
         <h3>Welcome back {auth.name}!</h3>
       ) : (
@@ -35,7 +36,7 @@ const Home: NextPage = () => {
               })
             )
           }
-          className="py-2 rounded-sm dark:text-steel-900 dark:bg-steel-100 w-52 dark:focus:bg-steel-300"
+          className="btn-primary"
         >
           Get Started
         </button>

@@ -3,3 +3,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .btn-primary {
+    @apply py-2 rounded-sm dark:text-steel-900 dark:bg-steel-100 w-52 dark:focus:bg-steel-300;
+  }
+}
