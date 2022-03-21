@@ -6,7 +6,6 @@ export const helloQuery = extendType({
     t.string("session", {
       resolve(_, __, { req }) {
         (req.session as any).user = "Iverson";
-
         return "Done";
       },
     });
