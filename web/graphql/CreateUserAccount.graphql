@@ -1,0 +1,18 @@
+mutation CreateAccount(
+  $firstName: String!
+  $email: String!
+  $password: String!
+) {
+  CreateUser(firstName: $firstName, email: $email, password: $password) {
+    code
+    success
+    message
+    User {
+      id
+      email
+      firstName
+      lastName
+    }
+    token
+  }
+}

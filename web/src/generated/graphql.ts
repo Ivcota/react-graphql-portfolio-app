@@ -124,6 +124,8 @@ export type Query = {
   /** Get single user */
   GetSingleUser?: Maybe<User>;
   SingleProject: Project;
+  session?: Maybe<Scalars['String']>;
+  test?: Maybe<Scalars['String']>;
 };
 
 
@@ -144,7 +146,6 @@ export type QuerySingleProjectArgs = {
 
 export type User = {
   __typename?: 'User';
-  JWT?: Maybe<Scalars['String']>;
   email: Scalars['String'];
   firstName: Scalars['String'];
   githubURL?: Maybe<Scalars['String']>;
@@ -166,12 +167,37 @@ export type UserResponse = {
   token?: Maybe<Scalars['String']>;
 };
 
+export type CreateAccountMutationVariables = Exact<{
+  firstName: Scalars['String'];
+  email: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type CreateAccountMutation = { __typename?: 'Mutation', CreateUser?: { __typename?: 'UserResponse', code: number, success: boolean, message: string, token?: string | null, User?: { __typename?: 'User', id: number, email: string, firstName: string, lastName?: string | null } | null } | null };
+
 export type GetManyUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetManyUsersQuery = { __typename?: 'Query', GetManyUsers: Array<{ __typename?: 'User', id: number, email: string, firstName: string, lastName?: string | null, isAdmin: boolean, profilePictureURL?: string | null, socialMediaURL?: string | null, websiteURL?: string | null, githubURL?: string | null } | null> };
 
 
+export const CreateAccount = gql`
+    mutation CreateAccount($firstName: String!, $email: String!, $password: String!) {
+  CreateUser(firstName: $firstName, email: $email, password: $password) {
+    code
+    success
+    message
+    User {
+      id
+      email
+      firstName
+      lastName
+    }
+    token
+  }
+}
+    `;
 export const GetManyUsers = gql`
     query GetManyUsers {
   GetManyUsers {
@@ -188,6 +214,26 @@ export const GetManyUsers = gql`
 }
     `;
 
+export const CreateAccountDocument = gql`
+    mutation CreateAccount($firstName: String!, $email: String!, $password: String!) {
+  CreateUser(firstName: $firstName, email: $email, password: $password) {
+    code
+    success
+    message
+    User {
+      id
+      email
+      firstName
+      lastName
+    }
+    token
+  }
+}
+    `;
+
+export function useCreateAccountMutation() {
+  return Urql.useMutation<CreateAccountMutation, CreateAccountMutationVariables>(CreateAccountDocument);
+};
 export const GetManyUsersDocument = gql`
     query GetManyUsers {
   GetManyUsers {
