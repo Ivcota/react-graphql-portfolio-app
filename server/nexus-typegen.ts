@@ -34,6 +34,10 @@ export interface NexusGenObjects {
     filename?: string | null; // String
     success: boolean; // Boolean!
   }
+  MeObject: { // root type
+    isAuth: boolean; // Boolean!
+    user: NexusGenRootTypes['User']; // User!
+  }
   Mutation: {};
   Project: { // root type
     desc: string; // String!
@@ -86,6 +90,10 @@ export interface NexusGenFieldTypes {
     filename: string | null; // String
     success: boolean; // Boolean!
   }
+  MeObject: { // field return type
+    isAuth: boolean; // Boolean!
+    user: NexusGenRootTypes['User']; // User!
+  }
   Mutation: { // field return type
     CreateProject: NexusGenRootTypes['ProjectResponse'] | null; // ProjectResponse
     CreateUser: NexusGenRootTypes['UserResponse'] | null; // UserResponse
@@ -113,7 +121,10 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     GetManyUsers: Array<NexusGenRootTypes['User'] | null>; // [User]!
     GetSingleUser: NexusGenRootTypes['User'] | null; // User
+    Me: NexusGenRootTypes['MeObject']; // MeObject!
     SingleProject: NexusGenRootTypes['Project']; // Project!
+    session: string | null; // String
+    test: string | null; // String
   }
   User: { // field return type
     email: string; // String!
@@ -142,6 +153,10 @@ export interface NexusGenFieldTypeNames {
     filename: 'String'
     success: 'Boolean'
   }
+  MeObject: { // field return type name
+    isAuth: 'Boolean'
+    user: 'User'
+  }
   Mutation: { // field return type name
     CreateProject: 'ProjectResponse'
     CreateUser: 'UserResponse'
@@ -169,7 +184,10 @@ export interface NexusGenFieldTypeNames {
   Query: { // field return type name
     GetManyUsers: 'User'
     GetSingleUser: 'User'
+    Me: 'MeObject'
     SingleProject: 'Project'
+    session: 'String'
+    test: 'String'
   }
   User: { // field return type name
     email: 'String'

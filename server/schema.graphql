@@ -8,6 +8,11 @@ type FileResponse {
   success: Boolean!
 }
 
+type MeObject {
+  isAuth: Boolean!
+  user: User!
+}
+
 type Mutation {
   """Create a new project serverside"""
   CreateProject(desc: String!, githubURL: String!, imageUrl: String!, title: String!, userId: Int, websiteURL: String): ProjectResponse
@@ -55,10 +60,13 @@ type Query {
     """user id"""
     id: Int!
   ): User
+  Me: MeObject!
   SingleProject(
     """Project ID"""
     id: Int!
   ): Project!
+  session: String
+  test: String
 }
 
 """The `Upload` scalar type represents a file upload."""

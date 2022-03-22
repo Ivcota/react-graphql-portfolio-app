@@ -1,9 +1,21 @@
 import { extendType, intArg, list, nonNull, objectType } from "nexus";
 import jwt from "jsonwebtoken";
 import bycrpt from "bcryptjs";
-
 import dotenv from "dotenv";
+
 dotenv.config();
+
+// Me Object - Contains auth status and personal user info
+
+export const MeObject = objectType({
+  name: "MeObject",
+  definition(t) {
+    t.nonNull.boolean("isAuth");
+    t.nonNull.field("user", {
+      type: "User",
+    });
+  },
+});
 
 export const User = objectType({
   name: "User",
@@ -62,6 +74,38 @@ export const UserResponse = objectType({
 });
 
 // Queries
+
+export const Me = extendType({
+  type: "Query",
+  definition(t) {
+    t.nonNull.field("Me", {
+      type: "MeObject",
+      // @ts-ignore
+      async resolve(_, __, { req, db }) {
+        try {
+          const userId = (req.session as any).userId as number;
+
+          const user = await db.user.findUnique({
+            where: {
+              id: userId,
+            },
+          });
+
+          return {
+            isAuth: true,
+            user,
+          };
+        } catch (error) {
+          return {
+            isAuth: false,
+            user: {},
+          };
+        }
+      },
+    });
+  },
+});
+
 export const getManyUsers = extendType({
   type: "Query",
   definition(t) {
@@ -82,7 +126,7 @@ export const getManyUsers = extendType({
           })
         ),
       },
-      async resolve(_, { skip, take }, { db }) {
+      async resolve(_, { skip, take }, { db, req }) {
         try {
           const users = await db.user.findMany({
             skip,
@@ -141,7 +185,7 @@ export const createUser = extendType({
         password: nonNull("String"),
       },
       // @ts-expect-error
-      async resolve(_, { firstName, email, password }, { db }) {
+      async resolve(_, { firstName, email, password }, { db, req }) {
         try {
           const salt = await bycrpt.genSalt(10);
           const hash = await bycrpt.hash(password, salt);
@@ -163,6 +207,8 @@ export const createUser = extendType({
               expiresIn: "30d",
             }
           );
+
+          (req.session as any).userId = user.id;
 
           return {
             code: 200,
@@ -199,7 +245,7 @@ export const userLogin = extendType({
         password: nonNull("String"),
       },
       // @ts-expect-error
-      async resolve(_, { email, password }, { db }) {
+      async resolve(_, { email, password }, { db, req }) {
         try {
           const user = await db.user.findFirst({
             where: {
@@ -222,6 +268,8 @@ export const userLogin = extendType({
           );
 
           if (isMatch) {
+            (req.session as any).userId = user?.id;
+
             return {
               code: 200,
               success: true,
