@@ -24,6 +24,12 @@ export type FileResponse = {
   success: Scalars['Boolean'];
 };
 
+export type MeObject = {
+  __typename?: 'MeObject';
+  isAuth: Scalars['Boolean'];
+  user: User;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   /** Create a new project serverside */
@@ -123,6 +129,7 @@ export type Query = {
   GetManyUsers: Array<Maybe<User>>;
   /** Get single user */
   GetSingleUser?: Maybe<User>;
+  Me: MeObject;
   SingleProject: Project;
   session?: Maybe<Scalars['String']>;
   test?: Maybe<Scalars['String']>;
@@ -176,6 +183,13 @@ export type CreateAccountMutationVariables = Exact<{
 
 export type CreateAccountMutation = { __typename?: 'Mutation', CreateUser?: { __typename?: 'UserResponse', code: number, success: boolean, message: string, token?: string | null, User?: { __typename?: 'User', id: number, email: string, firstName: string, lastName?: string | null } | null } | null };
 
+export type FileUploadMutationVariables = Exact<{
+  file: Scalars['Upload'];
+}>;
+
+
+export type FileUploadMutation = { __typename?: 'Mutation', UploadFile: { __typename?: 'FileResponse', success: boolean, filename?: string | null, fileURL: string } };
+
 export type GetManyUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -195,6 +209,15 @@ export const CreateAccount = gql`
       lastName
     }
     token
+  }
+}
+    `;
+export const FileUpload = gql`
+    mutation FileUpload($file: Upload!) {
+  UploadFile(file: $file) {
+    success
+    filename
+    fileURL
   }
 }
     `;
@@ -233,6 +256,19 @@ export const CreateAccountDocument = gql`
 
 export function useCreateAccountMutation() {
   return Urql.useMutation<CreateAccountMutation, CreateAccountMutationVariables>(CreateAccountDocument);
+};
+export const FileUploadDocument = gql`
+    mutation FileUpload($file: Upload!) {
+  UploadFile(file: $file) {
+    success
+    filename
+    fileURL
+  }
+}
+    `;
+
+export function useFileUploadMutation() {
+  return Urql.useMutation<FileUploadMutation, FileUploadMutationVariables>(FileUploadDocument);
 };
 export const GetManyUsersDocument = gql`
     query GetManyUsers {

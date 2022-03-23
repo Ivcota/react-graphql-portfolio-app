@@ -1,11 +1,12 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { NextPage } from "next";
 import useFileUpload from "react-use-file-upload";
-import FormikField from "../../components/FormikField";
-import { Formik } from "formik";
+import { useFileUploadMutation } from "../../src/generated/graphql";
 
 const UploadImagePage: NextPage = () => {
   const { files, setFiles, fileNames, totalSize } = useFileUpload();
+
+  const [fileUploadResult, fileUpload] = useFileUploadMutation();
 
   return (
     <div className="flex flex-col items-center">
@@ -14,14 +15,27 @@ const UploadImagePage: NextPage = () => {
       <h3 className="mt-8 mb-4"> {totalSize}</h3>
       <form
         className="flex flex-col items-center"
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
-          console.log(files[0]);
+          const upload = await fileUpload({
+            file: files[0],
+          });
         }}
       >
         <input onChange={(e) => setFiles(e as any)} type="file" />
         <button className="mt-3 btn-primary">Submit</button>
       </form>
+      <div>
+        <h1>Upload Results</h1>
+        <div>
+          <p> {fileUploadResult.data?.UploadFile.filename} </p>
+          <img
+            className="rounded shadow-lg w-72 shadow-steel-900"
+            src={fileUploadResult.data?.UploadFile.fileURL}
+            alt=""
+          />
+        </div>
+      </div>
     </div>
   );
 };

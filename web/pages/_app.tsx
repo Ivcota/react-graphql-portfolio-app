@@ -1,3 +1,4 @@
+import { multipartFetchExchange } from "@urql/exchange-multipart-fetch";
 import type { AppProps } from "next/app";
 import { Provider as ReduxProvider } from "react-redux";
 import { createClient, Provider } from "urql";
@@ -6,6 +7,7 @@ import "../styles/globals.css";
 
 const client = createClient({
   url: "http://localhost:4000/graphql",
+  exchanges: [multipartFetchExchange],
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
