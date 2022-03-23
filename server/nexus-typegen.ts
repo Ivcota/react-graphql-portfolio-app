@@ -123,8 +123,6 @@ export interface NexusGenFieldTypes {
     GetSingleUser: NexusGenRootTypes['User'] | null; // User
     Me: NexusGenRootTypes['MeObject']; // MeObject!
     SingleProject: NexusGenRootTypes['Project']; // Project!
-    session: string | null; // String
-    test: string | null; // String
   }
   User: { // field return type
     email: string; // String!
@@ -186,8 +184,6 @@ export interface NexusGenFieldTypeNames {
     GetSingleUser: 'User'
     Me: 'MeObject'
     SingleProject: 'Project'
-    session: 'String'
-    test: 'String'
   }
   User: { // field return type name
     email: 'String'
