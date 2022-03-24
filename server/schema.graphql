@@ -23,6 +23,7 @@ type Mutation {
   DeleteUser(id: Int!): Boolean
   EditProject(desc: String, githubURL: String, id: Int!, imageUrl: String, title: String, websiteURL: String): ProjectResponse!
   EditUser(firstName: String, githubURL: String, id: Int!, lastName: String, profilePictureURL: String, socialMediaURL: String, websiteURL: String): UserResponse!
+  SessionEditUser(firstName: String, githubURL: String, lastName: String, profilePictureURL: String, socialMediaURL: String, websiteURL: String): UserResponse!
   UploadFile(file: Upload!): FileResponse!
   UserLogin(email: String!, password: String!): UserResponse
 }

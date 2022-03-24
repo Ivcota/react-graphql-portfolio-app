@@ -101,6 +101,7 @@ export interface NexusGenFieldTypes {
     DeleteUser: boolean | null; // Boolean
     EditProject: NexusGenRootTypes['ProjectResponse']; // ProjectResponse!
     EditUser: NexusGenRootTypes['UserResponse']; // UserResponse!
+    SessionEditUser: NexusGenRootTypes['UserResponse']; // UserResponse!
     UploadFile: NexusGenRootTypes['FileResponse']; // FileResponse!
     UserLogin: NexusGenRootTypes['UserResponse'] | null; // UserResponse
   }
@@ -162,6 +163,7 @@ export interface NexusGenFieldTypeNames {
     DeleteUser: 'Boolean'
     EditProject: 'ProjectResponse'
     EditUser: 'UserResponse'
+    SessionEditUser: 'UserResponse'
     UploadFile: 'FileResponse'
     UserLogin: 'UserResponse'
   }
@@ -239,6 +241,14 @@ export interface NexusGenArgTypes {
       firstName?: string | null; // String
       githubURL?: string | null; // String
       id: number; // Int!
+      lastName?: string | null; // String
+      profilePictureURL?: string | null; // String
+      socialMediaURL?: string | null; // String
+      websiteURL?: string | null; // String
+    }
+    SessionEditUser: { // args
+      firstName?: string | null; // String
+      githubURL?: string | null; // String
       lastName?: string | null; // String
       profilePictureURL?: string | null; // String
       socialMediaURL?: string | null; // String
