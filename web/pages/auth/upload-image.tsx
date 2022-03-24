@@ -1,27 +1,29 @@
 import React from "react";
 import { NextPage } from "next";
 import useFileUpload from "react-use-file-upload";
-import { useFileUploadMutation } from "../../src/generated/graphql";
+import {
+  useFileUploadMutation,
+  useUpdateUserImageMutation,
+} from "../../src/generated/graphql";
 
 const UploadImagePage: NextPage = () => {
   const { files, setFiles, fileNames, totalSize } = useFileUpload();
-
   const [fileUploadResult, fileUpload] = useFileUploadMutation();
+  const [updateUserImageResult, updateUser] = useUpdateUserImageMutation();
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const upload = await fileUpload({
+      file: files[0],
+    });
+  };
 
   return (
     <div className="flex flex-col items-center">
       <h1 className="text-xl">Upload Your Photo</h1>
 
       <h3 className="mt-8 mb-4"> {totalSize}</h3>
-      <form
-        className="flex flex-col items-center"
-        onSubmit={async (e) => {
-          e.preventDefault();
-          const upload = await fileUpload({
-            file: files[0],
-          });
-        }}
-      >
+      <form className="flex flex-col items-center" onSubmit={handleFormSubmit}>
         <input onChange={(e) => setFiles(e as any)} type="file" />
         <button className="mt-3 btn-primary">Submit</button>
       </form>

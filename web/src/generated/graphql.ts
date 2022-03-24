@@ -131,8 +131,6 @@ export type Query = {
   GetSingleUser?: Maybe<User>;
   Me: MeObject;
   SingleProject: Project;
-  session?: Maybe<Scalars['String']>;
-  test?: Maybe<Scalars['String']>;
 };
 
 
@@ -195,6 +193,14 @@ export type GetManyUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetManyUsersQuery = { __typename?: 'Query', GetManyUsers: Array<{ __typename?: 'User', id: number, email: string, firstName: string, lastName?: string | null, isAdmin: boolean, profilePictureURL?: string | null, socialMediaURL?: string | null, websiteURL?: string | null, githubURL?: string | null } | null> };
 
+export type UpdateUserImageMutationVariables = Exact<{
+  id: Scalars['Int'];
+  pictureURL: Scalars['String'];
+}>;
+
+
+export type UpdateUserImageMutation = { __typename?: 'Mutation', EditUser: { __typename?: 'UserResponse', code: number, success: boolean, message: string, User?: { __typename?: 'User', id: number, firstName: string, profilePictureURL?: string | null } | null } };
+
 
 export const CreateAccount = gql`
     mutation CreateAccount($firstName: String!, $email: String!, $password: String!) {
@@ -233,6 +239,20 @@ export const GetManyUsers = gql`
     socialMediaURL
     websiteURL
     githubURL
+  }
+}
+    `;
+export const UpdateUserImage = gql`
+    mutation UpdateUserImage($id: Int!, $pictureURL: String!) {
+  EditUser(id: $id, profilePictureURL: $pictureURL) {
+    code
+    success
+    message
+    User {
+      id
+      firstName
+      profilePictureURL
+    }
   }
 }
     `;
@@ -288,4 +308,22 @@ export const GetManyUsersDocument = gql`
 
 export function useGetManyUsersQuery(options?: Omit<Urql.UseQueryArgs<GetManyUsersQueryVariables>, 'query'>) {
   return Urql.useQuery<GetManyUsersQuery>({ query: GetManyUsersDocument, ...options });
+};
+export const UpdateUserImageDocument = gql`
+    mutation UpdateUserImage($id: Int!, $pictureURL: String!) {
+  EditUser(id: $id, profilePictureURL: $pictureURL) {
+    code
+    success
+    message
+    User {
+      id
+      firstName
+      profilePictureURL
+    }
+  }
+}
+    `;
+
+export function useUpdateUserImageMutation() {
+  return Urql.useMutation<UpdateUserImageMutation, UpdateUserImageMutationVariables>(UpdateUserImageDocument);
 };
