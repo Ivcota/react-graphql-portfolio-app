@@ -1,5 +1,5 @@
-mutation UpdateUserImage($id: Int!, $pictureURL: String!) {
-  EditUser(id: $id, profilePictureURL: $pictureURL) {
+mutation SessionUpdateUserImage($pictureURL: String!) {
+  SessionEditUser(profilePictureURL: $pictureURL) {
     code
     success
     message

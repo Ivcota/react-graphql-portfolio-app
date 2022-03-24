@@ -209,6 +209,7 @@ export const createUser = extendType({
           );
 
           (req.session as any).userId = user.id;
+          console.log((req.session as any).userId);
 
           return {
             code: 200,
@@ -357,6 +358,8 @@ export const sessionEditUser = extendType({
         socialMediaURL: "String",
       },
       async resolve(_, args, { db, req }) {
+        console.log((req.session as any).userId);
+
         const user = await db.user.findUnique({
           where: {
             id: (req.session as any).userId as number,

@@ -40,6 +40,7 @@ export type Mutation = {
   DeleteUser?: Maybe<Scalars['Boolean']>;
   EditProject: ProjectResponse;
   EditUser: UserResponse;
+  SessionEditUser: UserResponse;
   UploadFile: FileResponse;
   UserLogin?: Maybe<UserResponse>;
 };
@@ -86,6 +87,16 @@ export type MutationEditUserArgs = {
   firstName?: InputMaybe<Scalars['String']>;
   githubURL?: InputMaybe<Scalars['String']>;
   id: Scalars['Int'];
+  lastName?: InputMaybe<Scalars['String']>;
+  profilePictureURL?: InputMaybe<Scalars['String']>;
+  socialMediaURL?: InputMaybe<Scalars['String']>;
+  websiteURL?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationSessionEditUserArgs = {
+  firstName?: InputMaybe<Scalars['String']>;
+  githubURL?: InputMaybe<Scalars['String']>;
   lastName?: InputMaybe<Scalars['String']>;
   profilePictureURL?: InputMaybe<Scalars['String']>;
   socialMediaURL?: InputMaybe<Scalars['String']>;
@@ -193,13 +204,12 @@ export type GetManyUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetManyUsersQuery = { __typename?: 'Query', GetManyUsers: Array<{ __typename?: 'User', id: number, email: string, firstName: string, lastName?: string | null, isAdmin: boolean, profilePictureURL?: string | null, socialMediaURL?: string | null, websiteURL?: string | null, githubURL?: string | null } | null> };
 
-export type UpdateUserImageMutationVariables = Exact<{
-  id: Scalars['Int'];
+export type SessionUpdateUserImageMutationVariables = Exact<{
   pictureURL: Scalars['String'];
 }>;
 
 
-export type UpdateUserImageMutation = { __typename?: 'Mutation', EditUser: { __typename?: 'UserResponse', code: number, success: boolean, message: string, User?: { __typename?: 'User', id: number, firstName: string, profilePictureURL?: string | null } | null } };
+export type SessionUpdateUserImageMutation = { __typename?: 'Mutation', SessionEditUser: { __typename?: 'UserResponse', code: number, success: boolean, message: string, User?: { __typename?: 'User', id: number, firstName: string, profilePictureURL?: string | null } | null } };
 
 
 export const CreateAccount = gql`
@@ -242,9 +252,9 @@ export const GetManyUsers = gql`
   }
 }
     `;
-export const UpdateUserImage = gql`
-    mutation UpdateUserImage($id: Int!, $pictureURL: String!) {
-  EditUser(id: $id, profilePictureURL: $pictureURL) {
+export const SessionUpdateUserImage = gql`
+    mutation SessionUpdateUserImage($pictureURL: String!) {
+  SessionEditUser(profilePictureURL: $pictureURL) {
     code
     success
     message
@@ -309,9 +319,9 @@ export const GetManyUsersDocument = gql`
 export function useGetManyUsersQuery(options?: Omit<Urql.UseQueryArgs<GetManyUsersQueryVariables>, 'query'>) {
   return Urql.useQuery<GetManyUsersQuery>({ query: GetManyUsersDocument, ...options });
 };
-export const UpdateUserImageDocument = gql`
-    mutation UpdateUserImage($id: Int!, $pictureURL: String!) {
-  EditUser(id: $id, profilePictureURL: $pictureURL) {
+export const SessionUpdateUserImageDocument = gql`
+    mutation SessionUpdateUserImage($pictureURL: String!) {
+  SessionEditUser(profilePictureURL: $pictureURL) {
     code
     success
     message
@@ -324,6 +334,6 @@ export const UpdateUserImageDocument = gql`
 }
     `;
 
-export function useUpdateUserImageMutation() {
-  return Urql.useMutation<UpdateUserImageMutation, UpdateUserImageMutationVariables>(UpdateUserImageDocument);
+export function useSessionUpdateUserImageMutation() {
+  return Urql.useMutation<SessionUpdateUserImageMutation, SessionUpdateUserImageMutationVariables>(SessionUpdateUserImageDocument);
 };

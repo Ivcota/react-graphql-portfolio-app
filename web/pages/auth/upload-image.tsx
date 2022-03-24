@@ -3,19 +3,28 @@ import { NextPage } from "next";
 import useFileUpload from "react-use-file-upload";
 import {
   useFileUploadMutation,
-  useUpdateUserImageMutation,
+  useSessionUpdateUserImageMutation,
 } from "../../src/generated/graphql";
 
 const UploadImagePage: NextPage = () => {
   const { files, setFiles, fileNames, totalSize } = useFileUpload();
   const [fileUploadResult, fileUpload] = useFileUploadMutation();
-  const [updateUserImageResult, updateUser] = useUpdateUserImageMutation();
+  const [
+    updateUserImageResult,
+    updateUser,
+  ] = useSessionUpdateUserImageMutation();
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const upload = await fileUpload({
       file: files[0],
     });
+
+    const updatedUser = await updateUser({
+      pictureURL: upload.data!.UploadFile.fileURL,
+    });
+
+    console.log(updatedUser);
   };
 
   return (
