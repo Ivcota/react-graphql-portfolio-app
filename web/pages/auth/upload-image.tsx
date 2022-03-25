@@ -21,7 +21,7 @@ const UploadImagePage: NextPage = () => {
     });
 
     const updatedUser = await updateUser({
-      pictureURL: upload.data!.UploadFile.fileURL,
+      pictureURL: upload.data?.UploadFile.fileURL as string,
     });
 
     console.log(updatedUser);
