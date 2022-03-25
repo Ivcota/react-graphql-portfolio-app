@@ -1,9 +1,11 @@
 import { ApolloServer } from "apollo-server-express";
+import connectRedis from "connect-redis";
 import express from "express";
 import session from "express-session";
 import { graphqlUploadExpress } from "graphql-upload";
 import { context } from "./context";
 import { schema } from "./schema";
+const MemoryStore = require("memorystore")(session);
 
 const app = express();
 const TEMP_SESSION_SECRET = "temp-session-secret";
@@ -13,6 +15,9 @@ const startServer = async () => {
 
   app.use(
     session({
+      store: new MemoryStore({
+        checkPeriod: 86400000, // prune expired entries every 24h
+      }),
       secret: TEMP_SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
