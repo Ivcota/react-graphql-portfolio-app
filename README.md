@@ -11,7 +11,7 @@ Application Stack:
 - ApolloServer (GraphQL)
 
 Just for fun:
-- Redux for Global Auth State
+- Redux for Global Auth State => I'm considering switching this to Zustand to reduce bundle size
 
 Here's everything this application will include: 
 
