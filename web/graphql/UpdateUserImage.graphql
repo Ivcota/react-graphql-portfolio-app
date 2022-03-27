@@ -1,0 +1,12 @@
+mutation SessionUpdateUserImage($pictureURL: String!) {
+  SessionEditUser(profilePictureURL: $pictureURL) {
+    code
+    success
+    message
+    User {
+      id
+      firstName
+      profilePictureURL
+    }
+  }
+}

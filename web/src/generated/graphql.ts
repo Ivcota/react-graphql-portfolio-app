@@ -24,6 +24,12 @@ export type FileResponse = {
   success: Scalars['Boolean'];
 };
 
+export type MeObject = {
+  __typename?: 'MeObject';
+  isAuth: Scalars['Boolean'];
+  user: User;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   /** Create a new project serverside */
@@ -34,6 +40,7 @@ export type Mutation = {
   DeleteUser?: Maybe<Scalars['Boolean']>;
   EditProject: ProjectResponse;
   EditUser: UserResponse;
+  SessionEditUser: UserResponse;
   UploadFile: FileResponse;
   UserLogin?: Maybe<UserResponse>;
 };
@@ -87,6 +94,16 @@ export type MutationEditUserArgs = {
 };
 
 
+export type MutationSessionEditUserArgs = {
+  firstName?: InputMaybe<Scalars['String']>;
+  githubURL?: InputMaybe<Scalars['String']>;
+  lastName?: InputMaybe<Scalars['String']>;
+  profilePictureURL?: InputMaybe<Scalars['String']>;
+  socialMediaURL?: InputMaybe<Scalars['String']>;
+  websiteURL?: InputMaybe<Scalars['String']>;
+};
+
+
 export type MutationUploadFileArgs = {
   file: Scalars['Upload'];
 };
@@ -123,9 +140,8 @@ export type Query = {
   GetManyUsers: Array<Maybe<User>>;
   /** Get single user */
   GetSingleUser?: Maybe<User>;
+  Me: MeObject;
   SingleProject: Project;
-  session?: Maybe<Scalars['String']>;
-  test?: Maybe<Scalars['String']>;
 };
 
 
@@ -176,10 +192,24 @@ export type CreateAccountMutationVariables = Exact<{
 
 export type CreateAccountMutation = { __typename?: 'Mutation', CreateUser?: { __typename?: 'UserResponse', code: number, success: boolean, message: string, token?: string | null, User?: { __typename?: 'User', id: number, email: string, firstName: string, lastName?: string | null } | null } | null };
 
+export type FileUploadMutationVariables = Exact<{
+  file: Scalars['Upload'];
+}>;
+
+
+export type FileUploadMutation = { __typename?: 'Mutation', UploadFile: { __typename?: 'FileResponse', success: boolean, filename?: string | null, fileURL: string } };
+
 export type GetManyUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetManyUsersQuery = { __typename?: 'Query', GetManyUsers: Array<{ __typename?: 'User', id: number, email: string, firstName: string, lastName?: string | null, isAdmin: boolean, profilePictureURL?: string | null, socialMediaURL?: string | null, websiteURL?: string | null, githubURL?: string | null } | null> };
+
+export type SessionUpdateUserImageMutationVariables = Exact<{
+  pictureURL: Scalars['String'];
+}>;
+
+
+export type SessionUpdateUserImageMutation = { __typename?: 'Mutation', SessionEditUser: { __typename?: 'UserResponse', code: number, success: boolean, message: string, User?: { __typename?: 'User', id: number, firstName: string, profilePictureURL?: string | null } | null } };
 
 
 export const CreateAccount = gql`
@@ -198,6 +228,15 @@ export const CreateAccount = gql`
   }
 }
     `;
+export const FileUpload = gql`
+    mutation FileUpload($file: Upload!) {
+  UploadFile(file: $file) {
+    success
+    filename
+    fileURL
+  }
+}
+    `;
 export const GetManyUsers = gql`
     query GetManyUsers {
   GetManyUsers {
@@ -210,6 +249,20 @@ export const GetManyUsers = gql`
     socialMediaURL
     websiteURL
     githubURL
+  }
+}
+    `;
+export const SessionUpdateUserImage = gql`
+    mutation SessionUpdateUserImage($pictureURL: String!) {
+  SessionEditUser(profilePictureURL: $pictureURL) {
+    code
+    success
+    message
+    User {
+      id
+      firstName
+      profilePictureURL
+    }
   }
 }
     `;
@@ -234,6 +287,19 @@ export const CreateAccountDocument = gql`
 export function useCreateAccountMutation() {
   return Urql.useMutation<CreateAccountMutation, CreateAccountMutationVariables>(CreateAccountDocument);
 };
+export const FileUploadDocument = gql`
+    mutation FileUpload($file: Upload!) {
+  UploadFile(file: $file) {
+    success
+    filename
+    fileURL
+  }
+}
+    `;
+
+export function useFileUploadMutation() {
+  return Urql.useMutation<FileUploadMutation, FileUploadMutationVariables>(FileUploadDocument);
+};
 export const GetManyUsersDocument = gql`
     query GetManyUsers {
   GetManyUsers {
@@ -252,4 +318,22 @@ export const GetManyUsersDocument = gql`
 
 export function useGetManyUsersQuery(options?: Omit<Urql.UseQueryArgs<GetManyUsersQueryVariables>, 'query'>) {
   return Urql.useQuery<GetManyUsersQuery>({ query: GetManyUsersDocument, ...options });
+};
+export const SessionUpdateUserImageDocument = gql`
+    mutation SessionUpdateUserImage($pictureURL: String!) {
+  SessionEditUser(profilePictureURL: $pictureURL) {
+    code
+    success
+    message
+    User {
+      id
+      firstName
+      profilePictureURL
+    }
+  }
+}
+    `;
+
+export function useSessionUpdateUserImageMutation() {
+  return Urql.useMutation<SessionUpdateUserImageMutation, SessionUpdateUserImageMutationVariables>(SessionUpdateUserImageDocument);
 };

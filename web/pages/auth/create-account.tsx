@@ -5,9 +5,11 @@ import FormikField from "../../components/FormikField";
 import * as Yup from "yup";
 import FieldError from "../../components/FieldError";
 import { useCreateAccountMutation } from "./../../src/generated/graphql";
+import { useRouter } from "next/router";
 
 const CreateAccountPage = () => {
   const [response, createAccount] = useCreateAccountMutation();
+  const router = useRouter();
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 ">
@@ -20,14 +22,16 @@ const CreateAccountPage = () => {
           confirmPassword: "",
         }}
         onSubmit={async (values, { resetForm }) => {
-          const res = await createAccount({
-            firstName: values.firstName,
-            email: values.email.toLowerCase(),
-            password: values.password,
-          });
+          try {
+            const res = await createAccount({
+              firstName: values.firstName,
+              email: values.email.toLowerCase(),
+              password: values.password,
+            });
 
-          alert(`${res.data?.CreateUser?.User?.firstName} has been created.`);
-          resetForm();
+            alert(`${res.data?.CreateUser?.User?.firstName} has been created.`);
+            router.push("/auth/upload-image");
+          } catch (error) {}
         }}
         validationSchema={Yup.object({
           email: Yup.string().max(100).required("Email is required"),

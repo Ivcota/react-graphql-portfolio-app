@@ -209,6 +209,7 @@ export const createUser = extendType({
           );
 
           (req.session as any).userId = user.id;
+          console.log((req.session as any).userId);
 
           return {
             code: 200,
@@ -320,6 +321,54 @@ export const editUser = extendType({
         const updatedUser = await db.user.update({
           where: {
             id: args.id,
+          },
+          data: {
+            firstName: args.firstName || user?.firstName,
+            lastName: args.lastName || user?.lastName,
+            profilePictureURL:
+              args.profilePictureURL || user?.profilePictureURL,
+            githubURL: args.githubURL || user?.githubURL,
+            socialMediaURL: args.socialMediaURL || user?.socialMediaURL,
+            websiteURL: args.websiteURL || user?.websiteURL,
+          },
+        });
+
+        return {
+          code: 200,
+          message: "User updated",
+          success: true,
+          User: updatedUser,
+        };
+      },
+    });
+  },
+});
+
+export const sessionEditUser = extendType({
+  type: "Mutation",
+  definition(t) {
+    t.nonNull.field("SessionEditUser", {
+      type: "UserResponse",
+      args: {
+        firstName: "String",
+        lastName: "String",
+        websiteURL: "String",
+        githubURL: "String",
+        profilePictureURL: "String",
+        socialMediaURL: "String",
+      },
+      async resolve(_, args, { db, req }) {
+        console.log((req.session as any).userId);
+
+        const user = await db.user.findUnique({
+          where: {
+            id: (req.session as any).userId as number,
+          },
+        });
+
+        const updatedUser = await db.user.update({
+          where: {
+            id: (req.session as any).userId as number,
           },
           data: {
             firstName: args.firstName || user?.firstName,
