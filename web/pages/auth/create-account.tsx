@@ -30,7 +30,7 @@ const CreateAccountPage = () => {
             });
 
             alert(`${res.data?.CreateUser?.User?.firstName} has been created.`);
-            // router.push("/auth/upload-image");
+            router.push("/auth/upload-image");
           } catch (error) {}
         }}
         validationSchema={Yup.object({
