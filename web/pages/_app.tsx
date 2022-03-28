@@ -6,10 +6,10 @@ import { store } from "../app/store";
 import "../styles/globals.css";
 import { createHttpLink } from "apollo-link-http";
 
-// 2:40 - cors error ben awad FullStack - React
 const client = createClient({
   url: "http://localhost:4000/graphql",
   fetchOptions: {
+    // Include is needed to take cookies
     credentials: "include",
   },
   exchanges: [multipartFetchExchange],
